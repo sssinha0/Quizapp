@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1001214964809",
+    "firebase_url": "https://quizapp-shashi.firebaseio.com",
+    "project_id": "quizapp-shashi",
+    "storage_bucket": "quizapp-shashi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001214964809:android:6ab3435428b99945e9bb98",
+        "android_client_info": {
+          "package_name": "com.example.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001214964809-o3amq204lbkusourjf397a0n2ujk67s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAo8eLRQ255MvS1rWj3oByNb20XpGTnqgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001214964809-o3amq204lbkusourjf397a0n2ujk67s8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
