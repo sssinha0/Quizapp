@@ -19,12 +19,12 @@ public class Quiz_descrption extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(Quiz_descrption.this,Quiz_play.class);
-                intent.putExtra("f_name",getIntent().getStringExtra("f_name").toString());
-                intent.putExtra("l_name",getIntent().getStringExtra("l_name").toString());
+                Intent intent=new Intent(Quiz_descrption.this,Descrpion_Grid.class);
+               // intent.putExtra("f_name",getIntent().getStringExtra("f_name").toString());
+                //intent.putExtra("l_name",getIntent().getStringExtra("l_name").toString());
                 //intent.putExtra("m_name",getIntent().getStringArrayExtra("m_name").toString());
-                intent.putExtra("email",getIntent().getStringExtra("email").toString());
-                intent.putExtra("img_url",getIntent().getStringExtra("img_url").toString());
+                //intent.putExtra("email",getIntent().getStringExtra("email").toString());
+                //intent.putExtra("img_url",getIntent().getStringExtra("img_url").toString());
                 startActivity(intent);
             }
         });

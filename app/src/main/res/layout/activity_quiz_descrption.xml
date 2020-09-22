@@ -21,13 +21,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.012" />
+        app:layout_constraintVertical_bias="0.012"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp" />
 
     <Button
         android:id="@+id/playquiz"
         android:layout_width="126dp"
         android:layout_height="63dp"
-        android:text="Let's Play"
+        android:text="@string/let_s_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

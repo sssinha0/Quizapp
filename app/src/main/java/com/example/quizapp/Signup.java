@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,9 +63,10 @@ public class Signup extends AppCompatActivity {
         // Set the dimensions of the sign-in button.
          signInButton= findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-       // findViewById(R.id.sign_in_button).setOnClickListener(Signup.this);
+        //findViewById(R.id.sign_in_button).setOnClickListener(Signup.this);
         callbackManager = CallbackManager.Factory.create();
-        fbbutton.setReadPermissions(Arrays.asList("user_friends","email","public_profile"));
+        fbbutton.setReadPermissions(Arrays.asList("email","public_profile"));
+        checkloginUser();
         fbbutton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -111,7 +113,7 @@ public class Signup extends AppCompatActivity {
                      email=object.getString("email");
                      String id=object.getString("id");
                     img_url="https://graph.facebook.com/"+id+"/picture?type=large&width=720&height=720";
-                    name.setText(first_name+"  "+last_name);
+                    name.setText(first_name+last_name);
                     signupemil.setText(email);
                     RequestOptions requestOptions=new RequestOptions();
                     requestOptions.dontAnimate();
@@ -123,16 +125,16 @@ public class Signup extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            Intent intent=new Intent(Signup.this,Quiz_descrption.class);
-                            intent.putExtra("f_name",first_name);
+                            Intent intent=new Intent(Signup.this, Quiz_descrption.class);
+                           // intent.putExtra("f_name",first_name);
                            // intent.putExtra("gender",gender);
-                            intent.putExtra("l_name",last_name);
-                            intent.putExtra("img_url",img_url);
-                            intent.putExtra("email",email);
+                            //intent.putExtra("l_name",last_name);
+                            //intent.putExtra("img_url",img_url);
+                            //intent.putExtra("email",email);
                             startActivity(intent);
                             finish();
                         }
-                    },2000);
+                    },5000);
 
 
                 } catch (JSONException e) {
@@ -145,6 +147,64 @@ public class Signup extends AppCompatActivity {
         graphRequest.setParameters(parameter);
         graphRequest.executeAsync();
     }
+    public void checkloginUser(){
+            if(AccessToken.getCurrentAccessToken()!=null)
+                loaduserdata(AccessToken.getCurrentAccessToken());
+    }
+    /*private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
+            // Signed in successfully, show authenticated UI.
+            updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            updateUI(null);
+        }
+    }
+   /* @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+   /* @Override
+    /*public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            // ...
+        }
+    }
+   /* private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+    }
+    private void revokeAccess() {
+        mGoogleSignInClient.revokeAccess()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+    }*/
 }
