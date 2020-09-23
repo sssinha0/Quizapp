@@ -17,12 +17,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
@@ -38,6 +50,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int score;
     //private int setNo;
     //private Dialog loadingDialog;
+    //FirebaseFirestore db;
+    //DocumentReference collectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +74,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
 
         questionList = new ArrayList<>();
-
+        //db=FirebaseFirestore.getInstance();
+    //collectionReference=db.collection("users").document("1+3=?");
 
         getQuestionsList();
 
@@ -69,17 +84,47 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void getQuestionsList()
     {
-        questionList.add(new Question("question 1","a","b","c","d",2));
-        questionList.add(new Question("question h1","aa","ba","c","d",2));
-        questionList.add(new Question("question j1","a","badd","c","d",2));
-        questionList.add(new Question("question k1","a","sdfdb","c","d",2));
-        questionList.add(new Question("question jhh1","a","bdfdfa","c","d",2));
-        questionList.add(new Question("question 1","a","bdfasd","c","d",2));
-        questionList.add(new Question("question 1","a","bsdfsfe","c","d",2));
-        questionList.add(new Question("question 1","a","basdfd","c","d",2));
+        questionList.add(new Question("uesiotn1","A","B","c","d",2));
+        Log.i("Tag","kaise ho tum");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("users").document( "Shashi");
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                //Checking request result
+                if (task.isSuccessful()) {
+                    //Request was successful but it never means that data is found
+                    DocumentSnapshot data = task.getResult();
+                    if (data.exists()) {
+                        //document named "new doc" found
+
+                        //We know in which format we have writen data to that document, so we will get it in same manner
+                        //We used map to store that value, now we will get that
+                        Map<String, Object> map = data.getData();
+
+                        //We know the value "waqas" was stored against key "username"
+                        String username = (String) map.get("userName");
+
+                        Toast.makeText(QuestionActivity.this, "username: " + username, Toast.LENGTH_SHORT).show();
+
+
+                    } else {
+                        //document with name "new doc" not found at the path specified.
+                        Toast.makeText(QuestionActivity.this, "username: not found dta", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    //Request was not successful
+                    //Could be some rules or internet problem
+                    Log.i("TAG", "onComplete: Request unsuccessful, error: " + task.getException().getLocalizedMessage());
+                }
+            }
+        });
+
+
         setQuestion();
     }
-
+//set first question
     private void setQuestion()
     {
         timer.setText(String.valueOf(10));
