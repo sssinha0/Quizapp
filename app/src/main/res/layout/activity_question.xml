@@ -11,7 +11,6 @@
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
@@ -39,21 +38,19 @@
             android:id="@+id/questioncount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center"
-            android:text="1/3" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:gravity="center"
-            android:text="what is capital of india?" />
+            android:gravity="center" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="399dp"
-        android:layout_height="342dp"
+        android:layout_width="0dp"
+        android:layout_height="299dp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginEnd="1dp"
@@ -70,32 +67,28 @@
             android:id="@+id/option1"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/colorPrimary"
             android:layout_marginBottom="10dp"
-            android:text="Mumbai" />
+            android:background="@color/colorPrimary" />
 
         <Button
             android:id="@+id/option2"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/colorPrimary"
-
             android:layout_marginBottom="10dp"
-            android:text="Kolkatta" />
+
+            android:background="@color/colorPrimary" />
 
         <Button
             android:id="@+id/option3"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/colorPrimary"
             android:layout_marginBottom="10dp"
-            android:text="chennai" />
+            android:background="@color/colorPrimary" />
 
         <Button
             android:id="@+id/option4"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/colorPrimary"
-            android:text="Delhi" />
+            android:background="@color/colorPrimary" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

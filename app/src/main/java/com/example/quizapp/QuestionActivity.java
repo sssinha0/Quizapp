@@ -88,9 +88,13 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.isSuccessful()){
                         for(QueryDocumentSnapshot snapshot:task.getResult()){
-                            Question list=snapshot.toObject(Question.class);
-                           // Map<String,Object> map=snapshot.getData();
-                            Log.i("question",snapshot.getData().toString());
+                           // Question list=snapshot.toObject(Question.class);
+                            Map<String,Object> map=snapshot.getData();
+                            Log.i("Question",(String)map.get("Question"));
+                            Question list=new Question((String)map.get("Question"),(String)map.get("A"),(String)map.get("B"),(String)map.get("C"),(String)map.get("D"),Integer.valueOf((String)map.get("Ans")));
+                            questionList.add(list);
+                            Log.i("quesitonn number",(snapshot.getId()).toString());
+
                            // questionList.add(new Question((snapshot.getId()).toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),Integer.valueOf(snapshot.getData().toString())));
                         }
                     }
@@ -101,9 +105,6 @@ public class QuestionActivity extends AppCompatActivity {
 
             }
         });
-        for(int j=0;j<questionList.size();j++){
-            Log.i("question",questionList.get(j).getQuestion());
-        }
 
     }
     }
