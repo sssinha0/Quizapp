@@ -2,9 +2,9 @@ package com.example.quizapp;
 
 public class Question {
     String Question,option1,option2,option3,option4;
-    int correctAns;
+    String correctAns;
 
-    public Question(String question, String option1, String option2, String option3, String option4, int correctAns) {
+    public Question(String question, String option1, String option2, String option3, String option4, String correctAns) {
         Question = question;
         this.option1 = option1;
         this.option2 = option2;
@@ -53,11 +53,11 @@ public class Question {
         this.option4 = option4;
     }
 
-    public int getCorrectAns() {
+    public String getCorrectAns() {
         return correctAns;
     }
 
-    public void setCorrectAns(int correctAns) {
+    public void setCorrectAns(String correctAns) {
         this.correctAns = correctAns;
     }
 }

@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,7 +42,7 @@ import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
 
 
-public class QuestionActivity extends AppCompatActivity implements View.OnClickListener{
+public class QuestionActivity extends AppCompatActivity {
 
     private TextView question, qCount, timer;
     private Button option1, option2, option3, option4;
@@ -56,12 +57,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         //initilize the view
-        intit();
-        //get question list from firebse
-        getQuestionsList();
-    }
-
-    private void intit() {
         score = 0;
         questionList = new ArrayList<>();
 
@@ -76,40 +71,77 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         option3 = findViewById(R.id.option3);
         option4 = findViewById(R.id.option4);
 
-        option1.setOnClickListener(this);
-        option2.setOnClickListener(this);
-        option3.setOnClickListener(this);
-        option4.setOnClickListener(this);
+        //get question list from firebse
+        ///option1.setOnClickListener(QuestionActivity.this);
+        //option2.setOnClickListener(QuestionActivity.this);
+        //option3.setOnClickListener(QuestionActivity.this);
+        //option4.setOnClickListener(QuestionActivity.this);
+        getQuestionsList();
     }
 
-    private void getQuestionsList()
-    {
+    private void getQuestionsList() {
         questionList.clear();
-
-        firestore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot snapshot:task.getResult()){
-                        Map<String ,Object> map=snapshot.getData();
-                        List<String> list=new ArrayList<>();
-                        list.add(snapshot.getId());
-                        questionList.add(new Question(list.toString(),(String)map.get("A"),(String)map.get("B"),(String)map.get("C"),(String)map.get("D"),(Integer.valueOf((String)map.get("Ans")))));
-
+        CollectionReference collectionReference=firestore.collection("Commonquestion");
+        collectionReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot snapshot:task.getResult()){
+                            Question list=snapshot.toObject(Question.class);
+                           // Map<String,Object> map=snapshot.getData();
+                            Log.i("question",snapshot.getData().toString());
+                           // questionList.add(new Question((snapshot.getId()).toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),Integer.valueOf(snapshot.getData().toString())));
+                        }
                     }
-
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(QuestionActivity.this,"failed",Toast.LENGTH_SHORT).show();
+
             }
         });
+        for(int j=0;j<questionList.size();j++){
+            Log.i("question",questionList.get(j).getQuestion());
+        }
 
     }
+    }
 
-    private void setQuestion()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*}
+    {
+        countDown = new CountDownTimer(12000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(millisUntilFinished < 10000)
+                    timer.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                changeQuestion();
+
+   /* private void setQuestion()
     {
         timer.setText(String.valueOf(10));
 
@@ -128,12 +160,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void startTimer()
+   private void startTimer()
     {
         countDown = new CountDownTimer(12000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if(millisUntilFinished < 10000)
+         tTimer()       if(millisUntilFinished < 10000)
                     timer.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
@@ -178,7 +210,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             default:
         }
 
-        countDown.cancel();
+       // countDown.cancel();
         checkAnswer(selectedOption, v);
 
     }
@@ -188,7 +220,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if(selectedOption == questionList.get(quesNum).getCorrectAns())
         {
-            //Right Answer
+            //Right AnswerquesNum
             ((Button)view).setBackgroundColor(GREEN);
             score++;
 
@@ -226,7 +258,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }, 2000);
 
 
-
     }
 
 
@@ -243,6 +274,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             playAnim(option4,0,4);
 
             qCount.setText(String.valueOf(quesNum+1) + "/" + String.valueOf(questionList.size()));
+            //question.setText(questionList.get(quesNum).getQuestion());
+            //option1.setText(questionList.get(quesNum).getOption1());
+            //option2.setText(questionList.get(quesNum).getOption2());
+            //option3.setText(questionList.get(quesNum).getOption3());
+            //option4.setText(questionList.get(quesNum).getOption4());
+
 
             timer.setText(String.valueOf(10));
             startTimer();
@@ -252,10 +289,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         {
             // Go to Score Activity
             Intent intent = new Intent(QuestionActivity.this,ScoreActivity.class);
-            //intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            //QuestionActivity.this.finish();
+            QuestionActivity.this.finish();
         }
 
 
@@ -298,8 +335,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             }
 
 
-                            if(viewNum != 0)
-                                ((Button)view).setBackgroundColor(BLUE);
+                           // if(viewNum != 0)
+                             //   ((Button)view).setBackgroundColor(BLUE);
 
 
                             playAnim(view,1,viewNum);
@@ -319,15 +356,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
 
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         super.onBackPressed();
 
         countDown.cancel();
-    }
-}
+    }*/
 
 
 
