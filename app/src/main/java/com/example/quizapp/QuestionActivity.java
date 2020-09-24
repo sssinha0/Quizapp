@@ -9,7 +9,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
+
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +22,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.collection.ArrayMap;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,14 +32,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import static android.graphics.Color.BLUE;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
+import static android.graphics.Color.YELLOW;
 
-
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView question, qCount, timer;
     private Button option1, option2, option3, option4;
@@ -51,16 +47,12 @@ public class QuestionActivity extends AppCompatActivity {
     private CountDownTimer countDown;
     private int score;
     private FirebaseFirestore firestore;
+    private int setNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        //initilize the view
-        score = 0;
-        questionList = new ArrayList<>();
-
-        firestore = FirebaseFirestore.getInstance();
 
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.questioncount);
@@ -71,60 +63,278 @@ public class QuestionActivity extends AppCompatActivity {
         option3 = findViewById(R.id.option3);
         option4 = findViewById(R.id.option4);
 
-        //get question list from firebse
-        ///option1.setOnClickListener(QuestionActivity.this);
-        //option2.setOnClickListener(QuestionActivity.this);
-        //option3.setOnClickListener(QuestionActivity.this);
-        //option4.setOnClickListener(QuestionActivity.this);
+        option1.setOnClickListener(this);
+        option2.setOnClickListener(this);
+        option3.setOnClickListener(this);
+        option4.setOnClickListener(this);
+
+
+
+        questionList = new ArrayList<>();
+
+        setNo = getIntent().getIntExtra("SETNO",1);
+        firestore = FirebaseFirestore.getInstance();
+
         getQuestionsList();
+
+        score = 0;
+
     }
 
-    private void getQuestionsList() {
+    private void getQuestionsList()
+    {
         questionList.clear();
-        CollectionReference collectionReference=firestore.collection("Commonquestion");
-        collectionReference.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
-                        for(QueryDocumentSnapshot snapshot:task.getResult()){
-                           // Question list=snapshot.toObject(Question.class);
-                            Map<String,Object> map=snapshot.getData();
-                            Log.i("Question",(String)map.get("Question"));
-                            Question list=new Question((String)map.get("Question"),(String)map.get("A"),(String)map.get("B"),(String)map.get("C"),(String)map.get("D"),Integer.valueOf((String)map.get("Ans")));
-                            questionList.add(list);
-                            Log.i("quesitonn number",(snapshot.getId()).toString());
 
-                           // questionList.add(new Question((snapshot.getId()).toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),snapshot.getData().toString(),Integer.valueOf(snapshot.getData().toString())));
+
+                firestore.collection("Commonquestion").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot doc : queryDocumentSnapshots)
+                        {
+                            questionList.add(new Question(
+                                    doc.getString("Question"),
+                                    doc.getString("A"),
+                                    doc.getString("B"),
+                                    doc.getString("C"),
+                                    doc.getString("D"),
+                                    Integer.valueOf(doc.getString("Ans"))
+                            ));
+
                         }
+
+                        setQuestion();
+
+
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(QuestionActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                });
+
+    }
+
+    private void setQuestion()
+    {
+        timer.setText(String.valueOf(10));
+
+        question.setText(questionList.get(0).getQuestion());
+        option1.setText(questionList.get(0).getOption1());
+        option2.setText(questionList.get(0).getOption2());
+        option3.setText(questionList.get(0).getOption3());
+        option4.setText(questionList.get(0).getOption4());
+
+
+        qCount.setText(String.valueOf(1) + "/" + String.valueOf(questionList.size()));
+
+        startTimer();
+
+        quesNum = 0;
+
+    }
+
+    private void startTimer()
+    {
+        countDown = new CountDownTimer(12000, 1000) {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onTick(long millisUntilFinished) {
+                if(millisUntilFinished < 10000)
+                    timer.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                changeQuestion();
+            }
+        };
+
+        countDown.start();
+
+    }
+
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+
+        int selectedOption = 0;
+
+        switch (v.getId())
+        {
+            case R.id.option1 :
+                selectedOption = 1;
+                break;
+
+            case R.id.option2:
+                selectedOption = 2;
+                break;
+
+            case R.id.option3:
+                selectedOption = 3;
+                break;
+
+            case R.id.option4:
+                selectedOption = 4;
+                break;
+
+            default:
+        }
+
+        countDown.cancel();
+        checkAnswer(selectedOption, v);
+
+    }
+
+    private void checkAnswer(int selectedOption, View view)
+    {
+
+        if(selectedOption == questionList.get(quesNum).getCorrectAns())
+        {
+            //Right Answer
+            ((Button)view).setBackgroundColor(GREEN);
+            score++;
+
+        }
+        else
+        {
+            //Wrong Answer
+            ((Button)view).setBackgroundColor(RED);
+
+            switch (questionList.get(quesNum).getCorrectAns())
+            {
+                case 1:
+                    option1.setBackgroundColor(GREEN);
+                    break;
+                case 2:
+                    option2.setBackgroundColor(GREEN);
+                    break;
+                case 3:
+                    option3.setBackgroundColor(GREEN);
+                    break;
+                case 4:
+                    option4.setBackgroundColor(GREEN);
+                    break;
 
             }
-        });
+
+        }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                changeQuestion();
+            }
+        }, 2000);
+
+
 
     }
+
+
+    private void changeQuestion()
+    {
+        if( quesNum < questionList.size() - 1)
+        {
+            quesNum++;
+
+            playAnim(question,0,0);
+            playAnim(option1,0,1);
+            playAnim(option2,0,2);
+            playAnim(option3,0,3);
+            playAnim(option4,0,4);
+
+            qCount.setText(String.valueOf(quesNum+1) + "/" + String.valueOf(questionList.size()));
+
+            timer.setText(String.valueOf(10));
+            startTimer();
+
+        }
+        else
+        {
+            // Go to Score Activity
+            Intent intent = new Intent(QuestionActivity.this,ScoreActivity.class);
+            intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            //QuestionActivity.this.finish();
+        }
+
+
     }
 
 
+    private void playAnim(final View view, final int value, final int viewNum)
+    {
+
+        view.animate().alpha(value).scaleX(value).scaleY(value).setDuration(500)
+                .setStartDelay(100).setInterpolator(new DecelerateInterpolator())
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if(value == 0)
+                        {
+                            switch (viewNum)
+                            {
+                                case 0:
+                                    ((TextView)view).setText(questionList.get(quesNum).getQuestion());
+                                    break;
+                                case 1:
+                                    ((Button)view).setText(questionList.get(quesNum).getOption1());
+                                    break;
+                                case 2:
+                                    ((Button)view).setText(questionList.get(quesNum).getOption2());
+                                    break;
+                                case 3:
+                                    ((Button)view).setText(questionList.get(quesNum).getOption3());
+                                    break;
+                                case 4:
+                                    ((Button)view).setText(questionList.get(quesNum).getOption4());
+                                    break;
+
+                            }
 
 
+                            if(viewNum != 0)
+                                ((Button)view).setBackgroundColor(YELLOW);
 
 
+                            playAnim(view,1,viewNum);
 
+                        }
 
+                    }
 
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
 
+                    }
 
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
 
+                    }
+                });
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
-
-
+        countDown.cancel();
+    }
+}
 
 
 
