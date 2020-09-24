@@ -29,6 +29,7 @@
         android:id="@+id/playquiz"
         android:layout_width="126dp"
         android:layout_height="63dp"
+        android:background="#FDD835"
         android:text="@string/let_s_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

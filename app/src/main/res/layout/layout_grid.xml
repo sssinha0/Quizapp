@@ -12,6 +12,8 @@
         android:id="@+id/catogery"
         android:layout_width="150dp"
         android:layout_height="70dp"
+        android:background="#FAF88F"
+        android:padding="2dp"
         android:textSize="20sp" />
 
 </LinearLayout>

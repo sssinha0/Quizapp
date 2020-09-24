@@ -2,10 +2,11 @@
     <string name="app_name">QuizAPP</string>
     <string name="let_s_play_quiz">Let\'s Play Quiz</string>
     <string name="powered_by_learnbyexample_com">Powered by LearnByExample.com</string>
-    <string name="todo">TODO</string>
     <string name="facebook_app_id">718817428700490</string>
     <string name="fb_login_protocol_scheme">fb718817428700490</string>
     <string name="textview">TextView</string>
     <string name="dec">There will 10 question in this quiz. For each correct answer you will be awarded with 1 marks.After complete the quiz you can see your score</string>
     <string name="let_s_play">Let\'s Play</string>
+    <string name="score">SCORE</string>
+    <string name="todo">TODO</string>
 </resources>

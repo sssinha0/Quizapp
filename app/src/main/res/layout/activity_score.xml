@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFD20A"
+    android:padding="5dp"
     tools:context=".ScoreActivity">
 
     <TextView
         android:id="@+id/scoretext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SCORE"
-        android:textSize="80dp"
+        android:text="@string/score"
+        android:textSize="80sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +24,8 @@
         android:id="@+id/showscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
+        android:background="#C4F6EF"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

@@ -113,10 +113,10 @@ public class Signup extends AppCompatActivity {
                      email=object.getString("email");
                      String id=object.getString("id");
                     img_url="https://graph.facebook.com/"+id+"/picture?type=large&width=720&height=720";
-                    name.setText(first_name+last_name);
+                    name.setText(first_name.toUpperCase()+"  "+last_name.toUpperCase());
                     signupemil.setText(email);
                     RequestOptions requestOptions=new RequestOptions();
-                    requestOptions.dontAnimate();
+                    //requestOptions.dontAnimate();
                     Glide.with(Signup.this).load(img_url).into(imageView);
                     fbbutton.setVisibility(View.GONE);
                     signInButton.setVisibility(View.GONE);
