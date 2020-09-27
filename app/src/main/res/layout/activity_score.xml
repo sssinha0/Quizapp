@@ -32,4 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.618" />
+
+    <Button
+        android:id="@+id/playagain"
+        android:layout_width="209dp"
+        android:layout_height="104dp"
+        android:text="Play Again"
+        android:background="@drawable/layout_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864" />
 </androidx.constraintlayout.widget.ConstraintLayout>

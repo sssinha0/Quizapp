@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
@@ -197,6 +198,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         {
             //Right Answer
             ((Button)view).setBackgroundColor(GREEN);
+            ((Button)view).setEnabled(false);
+            option2.setEnabled(false);
+            option4.setEnabled(false);
+            option3.setEnabled(false);
+            option1.setEnabled(false);
             score++;
 
         }
@@ -209,21 +215,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             {
                 case 1:
                     option1.setBackgroundColor(GREEN);
+                    option1.setEnabled(false);
+                    option2.setEnabled(false);
+                    option4.setEnabled(false);
+                    option3.setEnabled(false);
                     break;
                 case 2:
                     option2.setBackgroundColor(GREEN);
+                    option1.setEnabled(false);
+                    option2.setEnabled(false);
+                    option4.setEnabled(false);
+                    option3.setEnabled(false);
                     break;
                 case 3:
                     option3.setBackgroundColor(GREEN);
+                    option2.setEnabled(false);
+                    option4.setEnabled(false);
+                    option1.setEnabled(false);
+                    option3.setEnabled(false);
                     break;
                 case 4:
                     option4.setBackgroundColor(GREEN);
+                    option2.setEnabled(false);
+                    option1.setEnabled(false);
+                    option3.setEnabled(false);
+                    option4.setEnabled(false);
                     break;
 
             }
 
         }
-
+//after 2s change question will happen
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -262,7 +284,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            //QuestionActivity.this.finish();
+            QuestionActivity.this.finish();
         }
 
 
@@ -277,7 +299,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-
+                        option4.setBackgroundResource(R.drawable.question_buttion);
+                        option1.setBackgroundResource(R.drawable.question_buttion);
+                        option2.setBackgroundResource(R.drawable.question_buttion);
+                        option3.setBackgroundResource(R.drawable.question_buttion);
+                        option4.setBackgroundResource(R.drawable.question_buttion);
                     }
 
                     @Override
@@ -288,25 +314,51 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             {
                                 case 0:
                                     ((TextView)view).setText(questionList.get(quesNum).getQuestion());
+                                    ((TextView)view).setBackgroundResource(R.drawable.question_buttion);
+
+
+                                    option2.setEnabled(true);
+                                    option4.setEnabled(true);
+                                    option3.setEnabled(true);
+                                    option1.setEnabled(true);
                                     break;
                                 case 1:
                                     ((Button)view).setText(questionList.get(quesNum).getOption1());
+                                    option2.setEnabled(true);
+                                    option4.setEnabled(true);
+                                    option3.setEnabled(true);
+                                    option1.setEnabled(true);
                                     break;
                                 case 2:
                                     ((Button)view).setText(questionList.get(quesNum).getOption2());
+                                    option2.setEnabled(true);
+                                    option4.setEnabled(true);
+                                    option3.setEnabled(true);
+                                    option1.setEnabled(true);
                                     break;
                                 case 3:
                                     ((Button)view).setText(questionList.get(quesNum).getOption3());
+                                    option2.setEnabled(true);
+                                    option4.setEnabled(true);
+                                    option3.setEnabled(true);
+                                    option1.setEnabled(true);
                                     break;
                                 case 4:
                                     ((Button)view).setText(questionList.get(quesNum).getOption4());
+                                    option2.setEnabled(true);
+                                    option4.setEnabled(true);
+                                    option3.setEnabled(true);
+                                    option1.setEnabled(true);
                                     break;
 
                             }
 
 
-                            if(viewNum != 0)
-                                ((Button)view).setBackgroundColor(YELLOW);
+                            if(viewNum != 0) {
+                                ((Button) view).setBackgroundColor(YELLOW);
+                                ((TextView)view).setBackgroundColor(YELLOW);
+
+                            }
 
 
                             playAnim(view,1,viewNum);

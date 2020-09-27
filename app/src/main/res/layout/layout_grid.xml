@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    android:gravity="center"
-    android:padding="10dp"
-
+    android:layout_height="wrap_content"
     android:layout_weight="1"
-    >
+    android:gravity="center"
+
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/catogery"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:background="#FAF88F"
-        android:padding="2dp"
+        android:layout_width="130dp"
+        android:layout_height="120dp"
+        android:background="#08F4F4ED"
+        android:gravity="center"
+        android:padding="10dp"
         android:textSize="20sp" />
 
 </LinearLayout>

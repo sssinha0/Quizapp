@@ -28,9 +28,9 @@ public class Descrpion_Grid extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         gridView = findViewById(R.id.gridview);
         List<String> catlist = new ArrayList<>();
-        catlist.add("cat1");
-        catlist.add("ssa");
-        catlist.add("sha");
+        catlist.add("Operating system");
+        catlist.add("Data Structre");
+        catlist.add("DBMS");
         GridAdapter adapter = new GridAdapter(catlist);
         gridView.setAdapter(adapter);
     }
