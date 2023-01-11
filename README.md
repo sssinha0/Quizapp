@@ -30,27 +30,24 @@ I have developed a Android app that has two part one is for admin and other is u
  
 
 **~Use below Module:-<br />**
-    
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+  
 ## Apk: Drive link:
 Click [here](https://drive.google.com/file/d/1HjSwJsBQkUZHCnJR4fayDM23md8zCKeh/view?usp=sharing) to Download the apk.
-
-
-
-
-
-## App: Demo Video:
-[Video-link](https://drive.google.com/file/d/1L0xzySLyKgC7avkYPMRCX3Avq3jhD3er/view?usp=sharing)
-
-
 
 ## :camera_flash: Screenshots:
 <!-- You can add more screenshots here if you like -->
 
-<img src="/results/1.jpeg" width="260">
-<img src="/results/2.jpeg" width="260"> 
-<img src="/results/3.jpeg" width="260">
-<img src="/results/4.jpeg" width="260">
+<img src="/quizapp1.jpeg" width="260">
+<img src="/quizapp2.jpeg" width="260"> 
+<img src="/quizapp3.jpeg" width="260">
+<img src="/quizapp4.jpeg" width="260">
+<img src="/quizapp5.jpeg" width="260">
 
 ## Special thanks:
-  Special thanks to [Prince Bhaiya]()  for uploding such a beautiful content in youtube and motivate to do work
+  Special thanks to [Prince Bhaiya](https://github.com/princeNITian) for provide an an opportunity such in and motivate to do work
 ```
